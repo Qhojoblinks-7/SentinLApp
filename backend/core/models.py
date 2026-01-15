@@ -7,6 +7,7 @@ class DisciplineProfile(models.Model):
     current_streak = models.IntegerField(default=0)
     avatar_health = models.IntegerField(default=100)
     is_in_sickness_mode = models.BooleanField(default=False)
+    push_token = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username}'s Identity"
