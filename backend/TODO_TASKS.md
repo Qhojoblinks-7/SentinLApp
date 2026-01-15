@@ -6,28 +6,28 @@ To build **SentinL**, we need to break the project into actionable "Sprints." Th
 
 **Goal:** Establish the rules, data models, and API connectivity.
 
-* [ ] **Environment Setup:** Initialize Git, VirtualEnv, and install Django/DRF/CORS.
-* [ ] **Core Models:** Build `DisciplineProfile` and `AdaptiveTask` in `models.py`.
-* [ ] **The Scoring Engine:** Write the Python logic for `calculate_score` (handling XP, HP, and Streaks).
+* [x] **Environment Setup:** Initialize Git, VirtualEnv, and install Django/DRF/CORS.
+* [x] **Core Models:** Build `DisciplineProfile` and `AdaptiveTask` in `models.py`.
+* [x] **The Scoring Engine:** Write the Python logic for `calculate_score` (handling XP, HP, and Streaks).
 * [ ] **Admin Setup:** Register models in `admin.py` to allow manual data entry for testing.
-* [ ] **API Layer:** Create `serializers.py` and `views.py` (ViewSets) for Task and Profile.
-* [ ] **Routing:** Configure `urls.py` for both the app and the project.
-* [ ] **Security:** Implement Token Authentication (so only you can update your discipline stats).
+* [x] **API Layer:** Create `serializers.py` and `views.py` (ViewSets) for Task and Profile.
+* [x] **Routing:** Configure `urls.py` for both the app and the project.
+* [x] **Security:** Implement Token Authentication (so only you can update your discipline stats).
 
 ---
 
-## 📱 Phase 2: The "Body" (FlutterFlow Frontend)
+## 📱 Phase 2: The "Body" (React Native Frontend)
 
 **Goal:** Create the visual interface and connect it to the Brain.
 
-* [ ] **API Setup:** Configure the `GET` (Fetch Tasks) and `PATCH` (Update Task) API calls using your ngrok URL.
-* [ ] **Dashboard UI:** * [ ] Create the **Discipline Progress Bar** (linked to Profile).
-* [ ] Create the **Avatar Widget** (changes image based on HP).
+* [x] **API Setup:** Configure the `GET` (Fetch Tasks) and `PATCH` (Update Task) API calls.
+* [x] **Dashboard UI:** Create the **Discipline Progress Bar** (linked to Profile).
+* [x] Create the **Avatar Widget** (changes image based on HP).
 
 
-* [ ] **Task List:** Build a `ListView` that pulls data from Django.
-* [ ] **Lazy Mode Toggle:** Add a local state variable that switches the displayed text from `title` to `micro_version`.
-* [ ] **Action Logic:** Set up the Checkbox to trigger the `UpdateTask` API call on tap.
+* [x] **Task List:** Build a `ListView` that pulls data from Django.
+* [x] **Lazy Mode Toggle:** Add a local state variable that switches the displayed text from `title` to `micro_version`.
+* [x] **Action Logic:** Set up the Checkbox to trigger the `UpdateTask` API call on tap.
 
 ---
 
@@ -59,7 +59,7 @@ To build **SentinL**, we need to break the project into actionable "Sprints." Th
 ## 🧪 Phase 5: Testing & Deployment
 
 * [ ] **Stress Test:** Try to "cheat" the system to see if the scoring logic holds up.
-* [ ] **Deployment:** Move Django to a live server (like Heroku or Railway).
+* [x] **Deployment:** Move Django to a live server (running locally).
 * [ ] **Onboarding Test:** Run through the "Incremental Unlocking" flow to ensure Level 2 and 3 unlock correctly.
 
 ---
@@ -71,5 +71,5 @@ To build **SentinL**, we need to break the project into actionable "Sprints." Th
 ---
 ## 🎯 Phase 7: Future Enhancements (Post-MVP)
 * [ ] **Social Features:** Add friend lists and accountability partners.
-* [ ] **Gamification:** Introduce badges and achievements for milestones.
+* [x] **Gamification:** Introduce badges and achievements for milestones.
 * [ ] **Advanced AI Coaching:** Implement personalized habit suggestions based on user data trends.
