@@ -4,6 +4,8 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Avatar } from '../components/ui/Avatar';
 import { theme } from '../lib/theme';
+import { Audio } from 'expo-av';
+import { useVoiceChatMutation } from '../services/authApi';
 
 const Chat = ({ navigation }) => {
   const [messages, setMessages] = useState([
@@ -12,6 +14,9 @@ const Chat = ({ navigation }) => {
     { id: 3, text: 'I understand. Would you like to try the micro version instead? Just 10 minutes of stretching to keep your streak alive.', sender: 'ai', timestamp: '10:05 AM' },
   ]);
   const [inputText, setInputText] = useState('');
+  const [voiceChat] = useVoiceChatMutation();
+  const [recording, setRecording] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
 
   const sendMessage = () => {
     if (inputText.trim()) {

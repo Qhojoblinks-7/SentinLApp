@@ -9,6 +9,10 @@ class DisciplineProfile(models.Model):
     is_in_sickness_mode = models.BooleanField(default=False)
     push_token = models.CharField(max_length=255, blank=True, null=True)
 
+    @property
+    def level(self):
+        return (self.discipline_score // 10) + 1
+
     def __str__(self):
         return f"{self.user.username}'s Identity"
 
@@ -20,6 +24,15 @@ class AdaptiveTask(models.Model):
     is_micro_completed = models.BooleanField(default=False)
     difficulty_weight = models.IntegerField(default=1) # 1-5 scale
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def required_level(self):
+        # Parse micro_version like 'v1.0' -> 1, 'v1.1' -> 2, etc.
+        try:
+            version = self.micro_version.split('.')[1]  # 'v1.0' -> '0', 'v1.1' -> '1'
+            return int(version) + 1
+        except (IndexError, ValueError):
+            return 1  # default to 1
 
     def __str__(self):
         return self.title

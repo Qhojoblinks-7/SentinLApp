@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { store } from '../store/store';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://10.48.20.107:8000/api/',
+  baseUrl: 'http://10.71.110.107:8000/api/',
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     if (token) {
@@ -33,7 +33,15 @@ export const tasksApi = createApi({
       }),
       invalidatesTags: ['Task'], // Automatically refetches the list after an update
     }),
+    createTask: builder.mutation({
+      query: (task) => ({
+        url: 'tasks/',
+        method: 'POST',
+        body: task,
+      }),
+      invalidatesTags: ['Task'],
+    }),
   }),
 });
 
-export const { useGetTasksQuery, useUpdateTaskMutation, useGetHistoryQuery } = tasksApi;
+export const { useGetTasksQuery, useUpdateTaskMutation, useGetHistoryQuery, useCreateTaskMutation } = tasksApi;

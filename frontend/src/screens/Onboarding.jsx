@@ -4,10 +4,12 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Avatar } from '../components/ui/Avatar';
 import { theme } from '../lib/theme';
+import { useCreateTaskMutation } from '../services/tasksApi';
 
 const Onboarding = ({ navigation }) => {
   const [step, setStep] = useState(0);
   const [selectedTasks, setSelectedTasks] = useState([1, 2, 3, 4]);
+  const [createTask] = useCreateTaskMutation();
 
   const tasks = [
     { id: 1, title: 'Morning Deep Work', micro: 'v1.2' },
@@ -22,9 +24,25 @@ const Onboarding = ({ navigation }) => {
     );
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (step < 2) setStep(step + 1);
-    else navigation.replace('Dashboard');
+    else {
+      // Create selected tasks
+      const tasksToCreate = selectedTasks.map(id => {
+        const task = tasks.find(t => t.id === id);
+        return {
+          title: task.title,
+          micro_version: task.micro,
+          difficulty_weight: 1,
+        };
+      });
+      try {
+        await Promise.all(tasksToCreate.map(task => createTask(task).unwrap()));
+      } catch (error) {
+        console.error('Error creating tasks:', error);
+      }
+      navigation.replace('Main');
+    }
   };
 
   const renderStep = () => {

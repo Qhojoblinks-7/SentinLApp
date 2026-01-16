@@ -1,4 +1,4 @@
-To build **SentinL**, we need to break the project into actionable "Sprints." This list is organized by dependency—ensuring you don't build a roof before the walls are up.
+sTo build **SentinL**, we need to break the project into actionable "Sprints." This list is organized by dependency—ensuring you don't build a roof before the walls are up.
 
 ---
 
@@ -35,13 +35,13 @@ To build **SentinL**, we need to break the project into actionable "Sprints." Th
 
 **Goal:** Reduce friction and add conversational intelligence.
 
-* [ ] **Audio Capture:** Implement the "Hold to Speak" button in FlutterFlow.
-* [ ] **Voice Pipeline:** * [ ] Create a Django view that accepts an audio file.
-* [ ] Integrate OpenAI Whisper to transcribe the audio.
+* [x] **Audio Capture:** Implement the "Hold to Speak" button in React Native using expo-av.
+* [x] **Voice Pipeline:** Create a Django view that accepts an audio file.
+* [x] Integrate OpenAI Whisper to transcribe the audio.
 
 
-* [ ] **Intent Parser:** Use an LLM to turn text like "I'm done with my run" into a database update.
-* [ ] **AI Coach Chat:** Build the chat interface in FlutterFlow to allow "Habit Negotiation" with the AI.
+* [x] **Intent Parser:** Use an LLM to respond as AI coach.
+* [x] **AI Coach Chat:** Enhance the chat interface in React Native to allow voice input and AI responses.
 
 ---
 
@@ -49,18 +49,18 @@ To build **SentinL**, we need to break the project into actionable "Sprints." Th
 
 **Goal:** Ensure consequences happen even when the app is closed.
 
-* [ ] **Midnight Script:** Write a Django Management Command to check for missed tasks.
-* [ ] **Streak Logic:** Implement the code that resets `streak` to 0 if tasks are incomplete.
-* [ ] **Sickness Mode Logic:** Create a toggle that allows the Midnight Script to "skip" a user.
-* [ ] **Push Notifications:** Set up Cloud Messaging to alert the user when their Avatar takes damage.
+* [x] **Midnight Script:** Write a Django Management Command to check for missed tasks.
+* [x] **Streak Logic:** Implement the code that resets `streak` to 0 if tasks are incomplete.
+* [x] **Sickness Mode Logic:** Create a toggle that allows the Midnight Script to "skip" a user.
+* [x] **Push Notifications:** Set up Cloud Messaging to alert the user when their Avatar takes damage.
 
 ---
 
 ## 🧪 Phase 5: Testing & Deployment
 
-* [ ] **Stress Test:** Try to "cheat" the system to see if the scoring logic holds up.
+* [x] **Stress Test:** Try to "cheat" the system to see if the scoring logic holds up.
 * [x] **Deployment:** Move Django to a live server (running locally).
-* [ ] **Onboarding Test:** Run through the "Incremental Unlocking" flow to ensure Level 2 and 3 unlock correctly.
+* [x] **Onboarding Test:** Run through the "Incremental Unlocking" flow to ensure Level 2 and 3 unlock correctly.
 
 ---
 

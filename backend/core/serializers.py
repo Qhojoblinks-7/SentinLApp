@@ -15,6 +15,7 @@ class AchievementSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True, read_only=True)
     achievements = AchievementSerializer(many=True, read_only=True)
+    level = serializers.ReadOnlyField()
 
     class Meta:
         model = DisciplineProfile
