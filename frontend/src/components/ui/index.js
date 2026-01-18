@@ -5,3 +5,4 @@ export { Input } from './Input';
 export { ProgressBar } from './ProgressBar';
 export { Card } from './Card';
 export { Avatar } from './Avatar';
+export { SentinL3DAvatar } from './SentinL3DAvatar';

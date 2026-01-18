@@ -28,6 +28,12 @@
     },
     "plugins": [
       "expo-dev-client"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b5ce8a76-8d49-48e8-ac79-16d1098b1265"
+      }
+    },
+    "owner": "vista-forge"
   }
 }

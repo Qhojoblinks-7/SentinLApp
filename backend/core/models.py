@@ -37,6 +37,15 @@ class AdaptiveTask(models.Model):
     def __str__(self):
         return self.title
 
+class Milestone(models.Model):
+    task = models.ForeignKey(AdaptiveTask, on_delete=models.CASCADE, related_name="milestones")
+    title = models.CharField(max_length=255)
+    completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.task.title}: {self.title}"
+
 class Achievement(models.Model):
     profile = models.ForeignKey(DisciplineProfile, on_delete=models.CASCADE, related_name="achievements")
     name = models.CharField(max_length=255)

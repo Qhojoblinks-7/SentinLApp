@@ -1,8 +1,15 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import DisciplineProfile, AdaptiveTask, Achievement
+from .models import DisciplineProfile, AdaptiveTask, Achievement, Milestone
+
+class MilestoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Milestone
+        fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
+    milestones = MilestoneSerializer(many=True, read_only=True)
+
     class Meta:
         model = AdaptiveTask
         fields = '__all__' # This gives FlutterFlow access to all fields

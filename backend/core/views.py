@@ -7,8 +7,8 @@ from django.http import Http404
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from .models import AdaptiveTask, DisciplineProfile, Achievement
-from .serializers import TaskSerializer, RegisterSerializer, LoginSerializer, ProfileSerializer
+from .models import AdaptiveTask, DisciplineProfile, Achievement, Milestone
+from .serializers import TaskSerializer, RegisterSerializer, LoginSerializer, ProfileSerializer, MilestoneSerializer
 
 def check_achievements(profile):
     print(f"Checking achievements for {profile.user.username}: health={profile.avatar_health}, score={profile.discipline_score}, streak={profile.current_streak}")
@@ -29,6 +29,28 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.request.user.disciplineprofile.tasks.all()
+
+    def create(self, request, *args, **kwargs):
+        # Set the profile to the current user's profile
+        request.data['profile'] = request.user.disciplineprofile.id
+
+        # Extract milestones from request data
+        milestones_data = request.data.pop('milestones', [])
+
+        # Create the task first
+        response = super().create(request, *args, **kwargs)
+
+        if response.status_code == status.HTTP_201_CREATED:
+            task = AdaptiveTask.objects.get(id=response.data['id'])
+            # Create milestones for the task
+            for milestone_data in milestones_data:
+                Milestone.objects.create(
+                    task=task,
+                    title=milestone_data['title'],
+                    completed=milestone_data.get('completed', False)
+                )
+
+        return response
 
     def list(self, request, *args, **kwargs):
         profile = request.user.disciplineprofile
@@ -76,6 +98,8 @@ def register(request):
         if User.objects.filter(email__iexact=email).exists():
             return Response({'email': ['A user with this email already exists.']}, status=status.HTTP_400_BAD_REQUEST)
         user = serializer.save()
+        # Create DisciplineProfile for the new user
+        DisciplineProfile.objects.create(user=user)
         token, created = Token.objects.get_or_create(user=user)
         return Response({'token': token.key, 'user': {'id': user.id, 'username': user.username, 'email': user.email}}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -181,6 +205,35 @@ def voice_chat(request):
         ai_response = response.choices[0].message.content.strip()
 
         return Response({'transcript': text, 'response': ai_response})
+
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def text_chat(request):
+    from django.conf import settings
+    import openai
+
+    message = request.data.get('message', '').strip()
+    if not message:
+        return Response({'error': 'No message provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        # Generate AI response
+        client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are an AI coach for a discipline app called SentinL. Help users with motivation, task completion, and habit building. Be encouraging and practical. Keep responses concise and actionable."},
+                {"role": "user", "content": message}
+            ],
+            max_tokens=150
+        )
+
+        ai_response = response.choices[0].message.content.strip()
+
+        return Response({'response': ai_response})
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import TaskViewSet, register, login, profile, history, register_push_token, toggle_sickness_mode, voice_chat
+from .views import TaskViewSet, register, login, profile, history, register_push_token, toggle_sickness_mode, voice_chat, text_chat
 
 router = DefaultRouter()
 router.register(r'tasks', TaskViewSet)
@@ -14,4 +14,5 @@ urlpatterns = [
     path('register-push-token/', register_push_token, name='register_push_token'),
     path('toggle-sickness-mode/', toggle_sickness_mode, name='toggle_sickness_mode'),
     path('voice-chat/', voice_chat, name='voice_chat'),
+    path('text-chat/', text_chat, name='text_chat'),
 ]

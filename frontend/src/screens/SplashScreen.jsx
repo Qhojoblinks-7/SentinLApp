@@ -39,7 +39,7 @@ export default function SplashScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Animated.View style={animatedStyle}>
-        <Image source={require('../../assets/logo.png')} style={styles.logo} resizeMode="contain" />
+        <Image source={require('../../assets/sentinl.png')} style={styles.logo} resizeMode="contain" />
       </Animated.View>
     </View>
   );

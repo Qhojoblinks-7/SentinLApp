@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { store } from '../store/store';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://10.71.110.107:8000/api/',
+  baseUrl: 'http://10.99.140.107:8000/api/',
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     if (token) {
@@ -20,6 +20,7 @@ export const tasksApi = createApi({
     getTasks: builder.query({
       query: () => 'tasks/',
       providesTags: ['Task'], // This allows "Auto-refreshing" when data changes
+      keepUnusedDataFor: 300, // Cache for 5 minutes
     }),
     getHistory: builder.query({
       query: () => 'history/',

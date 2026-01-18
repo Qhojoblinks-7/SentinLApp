@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials } from '../store/authSlice';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://10.71.110.107:8000/api/',
+  baseUrl: 'http://10.99.140.107:8000/api/',
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
     console.log('Auth API Token:', token);
@@ -54,6 +54,7 @@ export const authApi = createApi({
         console.log('Retrieving profile data');
         return 'profile/';
       },
+      keepUnusedDataFor: 300, // Cache for 5 minutes
     }),
     registerPushToken: builder.mutation({
       query: (token) => ({
@@ -75,7 +76,14 @@ export const authApi = createApi({
         body: audioFile, // FormData
       }),
     }),
+    textChat: builder.mutation({
+      query: (message) => ({
+        url: 'text-chat/',
+        method: 'POST',
+        body: { message },
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useGetProfileQuery, useRegisterPushTokenMutation, useToggleSicknessModeMutation, useVoiceChatMutation } = authApi;
+export const { useRegisterMutation, useLoginMutation, useGetProfileQuery, useRegisterPushTokenMutation, useToggleSicknessModeMutation, useVoiceChatMutation, useTextChatMutation } = authApi;

@@ -4,7 +4,8 @@ import { Provider, useDispatch } from 'react-redux';
 import { store } from './store/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { LayoutDashboard, User, MessageCircle, Clock } from 'lucide-react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,6 +21,7 @@ import {
   Profile,
   Settings,
   TaskDetail,
+  CreateTask,
   Chat,
   Achievements,
   History
@@ -34,49 +36,41 @@ Notifications.setNotificationHandler({
 });
 
 const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
 
-const CustomDrawerContent = (props) => {
-  const dispatch = useDispatch();
-
-  const handleLogout = () => {
-    Toast.show({
-      type: 'info',
-      text1: 'Logged Out',
-      text2: 'You have been logged out successfully',
-    });
-    dispatch(logout());
-    props.navigation.replace('Login');
-  };
-
+const MainTabs = () => {
   return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem
-        label="History"
-        onPress={() => {
-          props.navigation.navigate('History');
-        }}
-      />
-      <DrawerItem
-        label="Logout"
-        onPress={handleLogout}
-      />
-    </DrawerContentScrollView>
-  );
-};
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
 
-const MainDrawer = () => {
-  return (
-    <Drawer.Navigator drawerContent={CustomDrawerContent}>
-      <Drawer.Screen name="Dashboard" component={Dashboard} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="Settings" component={Settings} />
-      <Drawer.Screen name="TaskDetail" component={TaskDetail} />
-      <Drawer.Screen name="Chat" component={Chat} />
-      <Drawer.Screen name="Achievements" component={Achievements} />
-      <Drawer.Screen name="History" component={History} options={{ drawerItemStyle: { display: 'none' } }} />
-    </Drawer.Navigator>
+          if (route.name === 'Dashboard') {
+            iconName = <LayoutDashboard size={size} color={color} />;
+          } else if (route.name === 'Profile') {
+            iconName = <User size={size} color={color} />;
+          } else if (route.name === 'Chat') {
+            iconName = <MessageCircle size={size} color={color} />;
+          } else if (route.name === 'History') {
+            iconName = <Clock size={size} color={color} />;
+          }
+
+          return iconName;
+        },
+        tabBarActiveTintColor: '#3b82f6',
+        tabBarInactiveTintColor: '#64748b',
+        tabBarStyle: {
+          backgroundColor: '#0f172a',
+          borderTopColor: '#1e293b',
+        },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Chat" component={Chat} />
+      <Tab.Screen name="History" component={History} />
+    </Tab.Navigator>
   );
 };
 
@@ -130,7 +124,27 @@ const AppContent = () => {
         />
         <Stack.Screen
           name="Main"
-          component={MainDrawer}
+          component={MainTabs}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TaskDetail"
+          component={TaskDetail}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CreateTask"
+          component={CreateTask}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Achievements"
+          component={Achievements}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
@@ -140,7 +154,7 @@ const AppContent = () => {
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#020617' }}>
       <Provider store={store}>
         <SafeAreaProvider>
           <AppContent />
